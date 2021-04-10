@@ -10,8 +10,11 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "USER_ACCESS")
+@Data
 public class UserAccess {
 
 	@Id

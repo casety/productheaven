@@ -1,20 +1,34 @@
 package com.productheaven.user.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.productheaven.user.persistence.entity.User;
+import com.productheaven.user.persistence.repository.UserRepository;
 import com.productheaven.user.service.UserService;
 import com.productheaven.user.service.exception.NoUsersFoundException;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+	private UserRepository repository;
+	
+	public UserServiceImpl(UserRepository repository) {
+		this.repository = repository;
+	}
+	
 	@Override
 	public List<User> getAllUsers() throws NoUsersFoundException {
-		return new ArrayList<>();
+		Iterable<User> users = repository.findAll();
+		Iterator<User> iterator = users.iterator();
+		if (!iterator.hasNext()) {
+			throw new NoUsersFoundException();
+		}
+		List<User> returnList = new ArrayList<>();
+		iterator.forEachRemaining(returnList::add);
+		return returnList;
 	}
-
 }

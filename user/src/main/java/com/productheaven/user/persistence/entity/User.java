@@ -7,17 +7,29 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "USER")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class User {
-
+	
+	public User(String id) {
+		this.id = id;
+	}
+	
 	@Id
 	@Column(name="ID", updatable = false, nullable = false, length = 36)
 	private String id;
 
 	@Column(name="CREATE_TIME", nullable = false)
 	private Date createTime;
-	
 	
 	@Column(name="USERNAME", nullable = false, length = 100)
 	private String username;
@@ -33,5 +45,4 @@ public class User {
 	
 	@Column(name="SURNAME", nullable = false, length = 100)
 	private String surname;
-		
 }

@@ -1,14 +1,12 @@
 package com.productheaven.user.api.schema.response;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class UserResponseDTO {
+@EqualsAndHashCode(callSuper = true)
+public class UserResponseDTO extends BaseResponseDTO {
 	
-	private String username;
-	
-	private String email;
-	
-	private String name;
+	private UserDTO user;
 
 }

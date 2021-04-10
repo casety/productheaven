@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class UsersResponseDTO extends BaseResponseDTO {
 	
-	private List<UserResponseDTO> users;	
+	private List<UserDTO> users;	
 }
