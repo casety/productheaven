@@ -3,6 +3,7 @@ package com.productheaven.user.controller;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -15,7 +16,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,10 +26,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 
 import com.productheaven.user.api.schema.response.UserDTO;
-import com.productheaven.user.api.schema.response.UserResponseDTO;
 import com.productheaven.user.persistence.entity.User;
+import com.productheaven.user.service.RequestValidationService;
 import com.productheaven.user.service.UserService;
+import com.productheaven.user.service.exception.InvalidRequestException;
 import com.productheaven.user.service.exception.NoUsersFoundException;
+import com.productheaven.user.service.exception.UserNotFoundException;
 
 /**
  * @author mkaman
@@ -46,18 +48,22 @@ class UserControllerTests {
 
 	@MockBean
 	private ModelMapper mockModelMapper;
+	
+	@MockBean
+	private RequestValidationService mockValidationService;
+	
 
 	ModelMapper testMapper = new ModelMapper();
 	
 	@BeforeEach
 	void init () {
 		MockitoAnnotations.openMocks(this);
-		this.mockMvc = MockMvcBuilders.standaloneSetup(new UserController(mockUserService, mockModelMapper)).build();
+		this.mockMvc = MockMvcBuilders.standaloneSetup(new UserController(mockUserService, mockModelMapper,mockValidationService)).build();
 	}
 
 	@Test
 	void whenServiceReturnsData_usersShouldBeListedSuccessfully() throws Exception {
-		//prepare mock user
+		//given
 		List<User> result = new ArrayList<>();
 		String randomId = UUID.randomUUID().toString();
 		User user = new User(randomId);
@@ -84,14 +90,48 @@ class UserControllerTests {
 
 	@Test
 	void usersShouldBeFetchedSuccessfully_forAGivenUserId() throws Exception {
+		//given
 		User user = new User();
 		String randomId = UUID.randomUUID().toString();
 		user.setId(randomId);
-		when(mockModelMapper.map(user, UserResponseDTO.class)).thenReturn(testMapper.map(user, UserResponseDTO.class));
+		
+		//when
+		when(mockUserService.getUser(randomId)).thenReturn(user);
+		when(mockModelMapper.map(user, UserDTO.class)).thenReturn(testMapper.map(user, UserDTO.class));
+		
 		this.mockMvc.perform(get("/user/"+randomId)).andDo(print())
 		
-		//then
+		//expect
 		.andExpect(status().isOk())
 		.andExpect(content().string(containsString(randomId)));
 	}
+	
+	@Test 
+	void whenServiceReturnsNoDataForAGivenUserId_UserNotFoundExceptionExceptionShouldBeThrown () throws UserNotFoundException {
+		
+		//given
+		String randomId = UUID.randomUUID().toString();
+		
+		//when
+		when(mockUserService.getUser(randomId)).thenThrow(new UserNotFoundException());
+
+	    Exception thrown= assertThrows(NestedServletException.class, () -> {
+	    	this.mockMvc.perform(get("/user/"+randomId));
+	    });
+	    assertTrue(thrown.getCause() instanceof UserNotFoundException);
+	}
+	
+	@Test
+	void whenRequestValidationFails_InvalidRequestExceptionShouldBeThrown() throws Exception {
+		//given
+		final String invalidId = "invalid-id";
+		doThrow(new InvalidRequestException()).when(mockValidationService).validateUserId(invalidId);
+		
+		//then
+	    Exception thrown= assertThrows(NestedServletException.class, () -> {
+	    	this.mockMvc.perform(get("/user/"+invalidId));
+	    });
+	    assertTrue(thrown.getCause() instanceof InvalidRequestException);
+	}
+	
 }

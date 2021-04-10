@@ -20,7 +20,7 @@ import com.productheaven.user.service.exception.NoUsersFoundException;
 import com.productheaven.user.service.impl.UserServiceImpl;
 
 @ExtendWith(SpringExtension.class)
-public class UserServiceImplTests {
+class UserServiceImplTests {
 
 	@InjectMocks
 	private UserServiceImpl userService;
@@ -52,4 +52,5 @@ public class UserServiceImplTests {
 	    	userService.getAllUsers();
 	    });
 	}
+	
 }
