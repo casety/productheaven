@@ -1,3 +1,6 @@
+
+server:
+  port: 9000
 spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -5,7 +8,7 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: ${MYSQL_URL} 
-    username: ${MYSQL_USERNAME}
+    url: ${USER_SVC_MYSQL_URL} 
+    username: ${USER_SVC_MYSQL_USERNAME}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: ${MYSQL_PASSWORD}
+    password: ${USER_SVC_MYSQL_PASSWORD}

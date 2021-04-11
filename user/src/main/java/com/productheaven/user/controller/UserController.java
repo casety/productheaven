@@ -36,6 +36,7 @@ import com.productheaven.user.service.exception.UserNotFoundException;
  * */
 
 @RestController
+
 public class UserController {
 	
 	private UserService userService;

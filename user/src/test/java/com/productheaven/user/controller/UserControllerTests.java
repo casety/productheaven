@@ -75,6 +75,7 @@ class UserControllerTests {
 		User user = new User(randomId);
 		result.add(user);
 
+
 		// when
 		when(mockUserService.getAllUsers()).thenReturn(result);
 		when(mockModelMapper.map(user, UserDTO.class)).thenReturn(testMapper.map(user, UserDTO.class));

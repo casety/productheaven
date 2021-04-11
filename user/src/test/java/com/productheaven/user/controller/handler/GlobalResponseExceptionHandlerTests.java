@@ -3,43 +3,59 @@ package com.productheaven.user.controller.handler;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Locale;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.productheaven.user.config.MessageSourceConfig;
 import com.productheaven.user.service.exception.InvalidRequestException;
 import com.productheaven.user.service.exception.NoUsersFoundException;
 import com.productheaven.user.service.exception.UserAlreadyExistsException;
 import com.productheaven.user.service.exception.UserNotFoundException;
+import com.productheaven.user.util.MessageKey;
 
 @ExtendWith(SpringExtension.class)
+@Import(MessageSourceConfig.class)
 class GlobalResponseExceptionHandlerTests {
 
-	@InjectMocks
+	
 	GlobalResponseExceptionHandler handler;
+	
+	@Autowired
+	MessageSource messageSource;
+	
+	@BeforeEach
+	void init () {
+		handler = new GlobalResponseExceptionHandler(messageSource);
+	}
 	
 	@Test
 	void whenNoUsersFoundExceptionOccurs_httpStatus404ShouldBeReturned () {
 		ResponseEntity<Object> result = handler.handleNoUsersFoundException(new NoUsersFoundException(),null);
 		assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
-		assertTrue(result.getBody().toString().contains("Sistemde tanimli kullanici bulunamadi"));
+		assertTrue(result.getBody().toString().contains(produceMessageFromMessageSource(MessageKey.EXCEPTION_NoUsersFoundException)));
 	}
 	
 	@Test
 	void whenUsersNotFoundExceptionOccurs_httpStatus404ShouldBeReturned () {
 		ResponseEntity<Object> result = handler.handleUserNotFoundException(new UserNotFoundException(),null);
 		assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
-		assertTrue(result.getBody().toString().contains("Sorgulanan kullanici bulunamadi"));
+		assertTrue(result.getBody().toString().contains(produceMessageFromMessageSource(MessageKey.EXCEPTION_UserNotFoundException)));
 	}
 	
 	@Test
 	void whenUserAlreadyExistsExceptionOccurs_httpStatus404ShouldBeReturned () {
 		ResponseEntity<Object> result = handler.handleUserAlreadyExistsException(new UserAlreadyExistsException(),null);
 		assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-		assertTrue(result.getBody().toString().contains("Kullanici daha onceden kayit olmus"));
+		assertTrue(result.getBody().toString().contains(produceMessageFromMessageSource(MessageKey.EXCEPTION_UserAlreadyExistsException)));
 	}
 	
 	@Test
@@ -49,5 +65,10 @@ class GlobalResponseExceptionHandlerTests {
 		assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
 		assertTrue(result.getBody().toString().contains(message));
 	}
+	
+	private String produceMessageFromMessageSource(String messageKey) {
+		return messageSource.getMessage(messageKey, null, new Locale("tr", "TR"));
+	}
+	
 	
 }

@@ -14,7 +14,7 @@ class UserRepositoryIntegrationTests {
 	UserRepository repo;
 	
 	@Test
-	void aho() {
+	void tobewritten() {
 		User entity = new User();
 		
 		repo.save(entity);

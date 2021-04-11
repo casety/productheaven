@@ -5,7 +5,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
   datasource:
-    url: ${MYSQL_URL} 
-    username: ${MYSQL_USERNAME}
+    url: ${USER_SVC_MYSQL_URL} 
+    username: ${USER_SVC_MYSQL_USERNAME}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: ${MYSQL_PASSWORD}
+    password: ${USER_SVC_MYSQL_PASSWORD}
