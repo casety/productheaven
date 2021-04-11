@@ -12,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.productheaven.user.service.exception.InvalidRequestException;
 import com.productheaven.user.service.exception.NoUsersFoundException;
+import com.productheaven.user.service.exception.UserAlreadyExistsException;
 import com.productheaven.user.service.exception.UserNotFoundException;
 
 @ExtendWith(SpringExtension.class)
@@ -32,6 +33,13 @@ class GlobalResponseExceptionHandlerTests {
 		ResponseEntity<Object> result = handler.handleUserNotFoundException(new UserNotFoundException(),null);
 		assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
 		assertTrue(result.getBody().toString().contains("Sorgulanan kullanici bulunamadi"));
+	}
+	
+	@Test
+	void whenUserAlreadyExistsExceptionOccurs_httpStatus404ShouldBeReturned () {
+		ResponseEntity<Object> result = handler.handleUserAlreadyExistsException(new UserAlreadyExistsException(),null);
+		assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+		assertTrue(result.getBody().toString().contains("Kullanici daha onceden kayit olmus"));
 	}
 	
 	@Test

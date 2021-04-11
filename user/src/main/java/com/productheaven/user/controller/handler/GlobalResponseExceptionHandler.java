@@ -30,7 +30,7 @@ public class GlobalResponseExceptionHandler extends ResponseEntityExceptionHandl
 	
 	@ExceptionHandler(value = UserAlreadyExistsException.class)
 	protected ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex, WebRequest request) {
-		BaseResponseDTO baseResponseDTO = new BaseResponseDTO("Kullanici daha onceden kayit olmus durumda");
+		BaseResponseDTO baseResponseDTO = new BaseResponseDTO("Kullanici daha onceden kayit olmus");
 		return new ResponseEntity<>(baseResponseDTO, HttpStatus.BAD_REQUEST);
 	}
 

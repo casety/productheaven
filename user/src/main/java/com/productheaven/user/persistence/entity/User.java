@@ -31,13 +31,13 @@ public class User {
 	@Column(name="CREATE_TIME", nullable = false)
 	private Date createTime;
 	
-	@Column(name="USERNAME", nullable = false, length = 100)
+	@Column(name="USERNAME", nullable = false, length = 50)
 	private String username;
 	
 	@Column(name="PASSWORD_HASHED", nullable = false, length = 512)
 	private String passwordHashed;
 	
-	@Column(name="EMAIL", nullable = false, length = 50)
+	@Column(name="EMAIL", nullable = false, length = 100)
 	private String email;
 	
 	@Column(name="NAME", nullable = false, length = 100)

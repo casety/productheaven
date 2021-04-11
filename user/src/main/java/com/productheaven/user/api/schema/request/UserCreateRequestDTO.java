@@ -17,25 +17,26 @@ import lombok.NoArgsConstructor;
 public class UserCreateRequestDTO {
 	
 	@NotNull
+	@Max(50)
 	private String username;
 	
 	@NotNull
 	@Email
+	@Max(100)
 	private String email;
 	
 	@NotNull
 	@Min(1)
-	@Max(50)
+	@Max(100)
 	private String name;
 	
 	@NotNull
 	@Min(1)
-	@Max(50)
+	@Max(100)
 	private String surname;
 	
 	@NotNull
-	@Min(1)
 	@Max(512)
-	private String passwordHashed;//hashed
+	private String passwordHashed;
 
 }
