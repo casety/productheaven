@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.productheaven.user.api.schema.response.BaseResponseDTO;
 import com.productheaven.user.service.exception.InvalidRequestException;
 import com.productheaven.user.service.exception.NoUsersFoundException;
+import com.productheaven.user.service.exception.UserAlreadyExistsException;
 import com.productheaven.user.service.exception.UserNotFoundException;
 
 @ControllerAdvice
@@ -25,6 +26,12 @@ public class GlobalResponseExceptionHandler extends ResponseEntityExceptionHandl
 	protected ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
 		BaseResponseDTO baseResponseDTO = new BaseResponseDTO("Sorgulanan kullanici bulunamadi");
 		return new ResponseEntity<>(baseResponseDTO, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(value = UserAlreadyExistsException.class)
+	protected ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex, WebRequest request) {
+		BaseResponseDTO baseResponseDTO = new BaseResponseDTO("Kullanici daha onceden kayit olmus durumda");
+		return new ResponseEntity<>(baseResponseDTO, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(value = InvalidRequestException.class)

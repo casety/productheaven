@@ -34,8 +34,8 @@ public class User {
 	@Column(name="USERNAME", nullable = false, length = 100)
 	private String username;
 	
-	@Column(name="PASSWORD", nullable = false, length = 256)
-	private String password;
+	@Column(name="PASSWORD_HASHED", nullable = false, length = 512)
+	private String passwordHashed;
 	
 	@Column(name="EMAIL", nullable = false, length = 50)
 	private String email;
@@ -45,4 +45,6 @@ public class User {
 	
 	@Column(name="SURNAME", nullable = false, length = 100)
 	private String surname;
+	
+	
 }
