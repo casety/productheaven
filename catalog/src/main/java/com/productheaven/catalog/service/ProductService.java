@@ -17,4 +17,6 @@ public interface ProductService {
 	Product saveNewProduct(Product entity);
 
 	Product updateProduct(Product entity) throws ProductNotFoundException, InvalidRequestException;
+
+	void deleteProduct(String id, String actionUser) throws ProductNotFoundException;
 }

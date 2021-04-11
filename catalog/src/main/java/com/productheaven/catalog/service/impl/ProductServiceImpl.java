@@ -76,4 +76,13 @@ public class ProductServiceImpl implements ProductService {
 		entity.setCreateTime(orjProduct.getCreateTime());
 		return repository.save(entity);
 	}
+
+	@Override
+	public void deleteProduct(String id,String actionUser) throws ProductNotFoundException {
+		Product orjProduct = getProductById(id);
+		orjProduct.setStatus(STATUS_DELETED);
+		orjProduct.setLastUpdateTime(new Date());
+		orjProduct.setLastUpdatedBy(actionUser);
+		repository.save(orjProduct);
+	}
 }

@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -28,6 +29,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 
+import com.productheaven.catalog.api.schema.request.DeleteProductRequestDTO;
 import com.productheaven.catalog.api.schema.request.ProductRequestDTO;
 import com.productheaven.catalog.api.schema.response.ProductDTO;
 import com.productheaven.catalog.persistence.entity.Product;
@@ -74,7 +76,8 @@ class ProductControllerTests {
 
 		// expect
 		this.mockMvc
-		.perform(get("/product")).andDo(print())
+		.perform(get("/product"))
+		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(content().string(containsString(randomId)));
 	}
@@ -187,5 +190,20 @@ class ProductControllerTests {
 		.andExpect(MockMvcResultMatchers.jsonPath("$.product.price",is(updateRequest.getPrice())));
 
 	}
+	
+	@Test
+	void productShouldBeDeletedSuccessfully() throws Exception {
+		// given,
+		DeleteProductRequestDTO deleteRequest = new DeleteProductRequestDTO("Deleter!");
+		String productId = UUID.randomUUID().toString();
+		
+		this.mockMvc
+		.perform(delete("/product/"+productId)
+				.content(TestUtils.objectToJsonString(deleteRequest))
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk());
+	}
+	
 	
 }

@@ -21,7 +21,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
+import com.productheaven.catalog.api.schema.request.DeleteProductRequestDTO;
 import com.productheaven.catalog.api.schema.request.ProductRequestDTO;
+import com.productheaven.catalog.api.schema.response.BaseResponseDTO;
 import com.productheaven.catalog.api.schema.response.ProductResponseDTO;
 import com.productheaven.catalog.persistence.entity.Product;
 import com.productheaven.catalog.persistence.repository.ProductRepository;
@@ -46,6 +48,7 @@ class ProductControllerIntegrationTests {
 	}
 	
 	private static final int STATUS_ACTIVE = 1;
+	private static final int STATUS_DELETED = 0;
 	
 	@Test
 	void productsShouldBeFetchedByIdSuccessfully() throws Exception {
@@ -118,5 +121,31 @@ class ProductControllerIntegrationTests {
 		assertEquals(productRequestDTO.getPrice(), updatedRecord.getPrice());
 		assertEquals(productRequestDTO.getActionUser(), updatedRecord.getLastUpdatedBy());
 		assertEquals(productRequestDTO.getCategoryId(), updatedRecord.getCategoryId());
+	}
+	
+	@Test
+	void productShouldBeDeletedSuccessfully() throws Exception {
+		// given
+		Product savedProduct = TestUtils.createProductEntity();
+		repository.save(savedProduct);
+
+		final String actionUser = "Deleter!";
+		DeleteProductRequestDTO productRequestDTO = new DeleteProductRequestDTO(actionUser);
+		RequestEntity<DeleteProductRequestDTO> requestEntity = new RequestEntity<DeleteProductRequestDTO>(productRequestDTO, HttpMethod.DELETE, new URI("http://localhost:" + port + "/product/"+savedProduct.getId()));
+		
+		//when
+		ResponseEntity<BaseResponseDTO> responseEntity = restTemplate.exchange(requestEntity, BaseResponseDTO.class);
+		BaseResponseDTO response = responseEntity.getBody();
+		//then
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertNull(response.getErrorMessage());
+		
+		Optional<Product> dbRecord = repository.findById(savedProduct.getId());
+		assertTrue(dbRecord.isPresent());		
+		Product updatedRecord = dbRecord.get();
+		assertEquals(STATUS_DELETED, updatedRecord.getStatus());
+		assertEquals(actionUser, updatedRecord.getLastUpdatedBy());
+
 	}
 }

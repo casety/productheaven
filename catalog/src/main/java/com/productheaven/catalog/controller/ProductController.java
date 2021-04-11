@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.productheaven.catalog.api.schema.request.DeleteProductRequestDTO;
 import com.productheaven.catalog.api.schema.request.ProductRequestDTO;
+import com.productheaven.catalog.api.schema.response.BaseResponseDTO;
 import com.productheaven.catalog.api.schema.response.ProductDTO;
 import com.productheaven.catalog.api.schema.response.ProductResponseDTO;
 import com.productheaven.catalog.api.schema.response.ProductsResponseDTO;
@@ -95,6 +98,13 @@ public class ProductController {
 		ProductDTO productDto = convertToDto(entity);
 		ProductResponseDTO responseDTO = new ProductResponseDTO(productDto);
 		return new ResponseEntity<>(responseDTO,HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/product/{id}")
+	public ResponseEntity<BaseResponseDTO> deleteProduct(@PathVariable("id") String id, @Valid @RequestBody DeleteProductRequestDTO productRequest) throws InvalidRequestException, ProductNotFoundException {
+		validationService.validateProductId(id);
+		productService.deleteProduct(id,productRequest.getActionUser());
+		return new ResponseEntity<>(new BaseResponseDTO(),HttpStatus.OK);
 	}
 	
 	private ProductDTO convertToDto(Product product) {
