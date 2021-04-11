@@ -1,4 +1,4 @@
-package com.productheaven.user.service.exception;
+package com.productheaven.catalog.service.exception;
 
 public class InvalidRequestException extends Exception {
 
@@ -11,7 +11,7 @@ public class InvalidRequestException extends Exception {
 		
 	}
 	
-	public InvalidRequestException (String messageKey) {
-		super(messageKey);
+	public InvalidRequestException (String message) {
+		super(message);
 	}
 }

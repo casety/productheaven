@@ -32,7 +32,7 @@ public class GlobalResponseExceptionHandler extends ResponseEntityExceptionHandl
 		this.messageSource = messageSource;
 	}
 	
-	// argument validations
+	// handle argument level validations
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,  final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
 		StringBuilder builder = new StringBuilder(produceMessageFromMessageSource(MessageKey.VALIDATION_COMMON_MESSAGE));
@@ -61,19 +61,20 @@ public class GlobalResponseExceptionHandler extends ResponseEntityExceptionHandl
 		return new ResponseEntity<>(baseResponseDTO, HttpStatus.BAD_REQUEST);
 	}
 
+	//raised when request validation occurs
 	@ExceptionHandler(value = InvalidRequestException.class)
 	protected ResponseEntity<Object> handleInvalidRequestException(InvalidRequestException e) {
-		BaseResponseDTO baseResponseDTO = new BaseResponseDTO(e.getMessage());
+		BaseResponseDTO baseResponseDTO = new BaseResponseDTO(produceMessageFromMessageSource(e.getMessage()));
 		return new ResponseEntity<>(baseResponseDTO, HttpStatus.BAD_REQUEST);
 	}
 	
+	// handle all other cases properly
 	@ExceptionHandler(value = Exception.class)
 	protected ResponseEntity<Object> handleAllException(Exception e) {
 		log.error(e.getMessage(), e);
 		BaseResponseDTO baseResponseDTO = new BaseResponseDTO(produceMessageFromException(e));
 		return new ResponseEntity<>(baseResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
 	
 	private String produceMessageFromMessageSource(String messageKey) {
 		return messageSource.getMessage(messageKey, null, new Locale("tr", "TR"));

@@ -41,29 +41,28 @@ class GlobalResponseExceptionHandlerTests {
 	void whenNoUsersFoundExceptionOccurs_httpStatus404ShouldBeReturned () {
 		ResponseEntity<Object> result = handler.handleNoUsersFoundException(new NoUsersFoundException(),null);
 		assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
-		assertTrue(result.getBody().toString().contains(produceMessageFromMessageSource(MessageKey.EXCEPTION_NoUsersFoundException)));
+		assertTrue(result.getBody().toString().contains(produceMessageFromMessageSource(MessageKey.EXCEPTION_NO_USER_FOUND)));
 	}
 	
 	@Test
 	void whenUsersNotFoundExceptionOccurs_httpStatus404ShouldBeReturned () {
 		ResponseEntity<Object> result = handler.handleUserNotFoundException(new UserNotFoundException(),null);
 		assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
-		assertTrue(result.getBody().toString().contains(produceMessageFromMessageSource(MessageKey.EXCEPTION_UserNotFoundException)));
+		assertTrue(result.getBody().toString().contains(produceMessageFromMessageSource(MessageKey.EXCEPTION_USER_NOT_FOUND)));
 	}
 	
 	@Test
 	void whenUserAlreadyExistsExceptionOccurs_httpStatus404ShouldBeReturned () {
 		ResponseEntity<Object> result = handler.handleUserAlreadyExistsException(new UserAlreadyExistsException(),null);
 		assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-		assertTrue(result.getBody().toString().contains(produceMessageFromMessageSource(MessageKey.EXCEPTION_UserAlreadyExistsException)));
+		assertTrue(result.getBody().toString().contains(produceMessageFromMessageSource(MessageKey.EXCEPTION_USER_ALREADY_EXISTS)));
 	}
 	
 	@Test
 	void whenInvalidRequestExceptionOccurs_httpStatus400ShouldBeReturned () {
-		String message = "sampleMessage";
-		ResponseEntity<Object> result = handler.handleInvalidRequestException(new InvalidRequestException(message));
+		ResponseEntity<Object> result = handler.handleInvalidRequestException(new InvalidRequestException(MessageKey.VALIDATION_USER_ID_INVALID));
 		assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-		assertTrue(result.getBody().toString().contains(message));
+		assertTrue(result.getBody().toString().contains(produceMessageFromMessageSource(MessageKey.VALIDATION_USER_ID_INVALID)));
 	}
 	
 	private String produceMessageFromMessageSource(String messageKey) {

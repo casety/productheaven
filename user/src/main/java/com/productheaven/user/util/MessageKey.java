@@ -18,11 +18,11 @@ public final class MessageKey {
 	public static final String VALIDATION_SURNAME_INVALID    = "validation.surname.invalid";
 	public static final String VALIDATION_PASSWORD_EMPTY     = "validation.passwordHashed.empty";
 	public static final String VALIDATION_PASSWORD_INVALID   = "validation.passwordHashed.invalid";
-
+	public static final String VALIDATION_USER_ID_INVALID    = "validation.userid.invalid";
 	
-	public static final String EXCEPTION_NoUsersFoundException       = "exception.NoUsersFoundException.message";
-	public static final String EXCEPTION_UserAlreadyExistsException  = "exception.UserAlreadyExistsException.message";
-	public static final String EXCEPTION_UserNotFoundException       = "exception.UserNotFoundException.message";
-	public static final String EXCEPTION_Exception                   = "exception.Exception.message";
+	public static final String EXCEPTION_NO_USER_FOUND               = "exception.NoUsersFoundException.message";
+	public static final String EXCEPTION_USER_ALREADY_EXISTS         = "exception.UserAlreadyExistsException.message";
+	public static final String EXCEPTION_USER_NOT_FOUND              = "exception.UserNotFoundException.message";
+	public static final String EXCEPTION_COMMON                      = "exception.Exception.message";
 
 }

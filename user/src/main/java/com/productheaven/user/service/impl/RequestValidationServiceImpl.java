@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.productheaven.user.service.RequestValidationService;
 import com.productheaven.user.service.exception.InvalidRequestException;
+import com.productheaven.user.util.MessageKey;
 
 @Service
 public class RequestValidationServiceImpl implements RequestValidationService {
@@ -14,7 +15,7 @@ public class RequestValidationServiceImpl implements RequestValidationService {
 	public void validateUserId(String userId) throws InvalidRequestException {
 
 		if (!userId.matches(REGEX_FOR_UUID)) {
-			throw new InvalidRequestException("Gecersiz id");
+			throw new InvalidRequestException(MessageKey.VALIDATION_USER_ID_INVALID);
 		}
 	}
 
