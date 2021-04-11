@@ -17,4 +17,12 @@ public class RequestValidationServiceImpl implements RequestValidationService {
 			throw new InvalidRequestException("Gecersiz id");
 		}
 	}
+	
+	@Override
+	public void validateCategoryId(String categoryId) throws InvalidRequestException {
+
+		if (!categoryId.matches(REGEX_FOR_UUID)) {
+			throw new InvalidRequestException("Gecersiz id");
+		}
+	}
 }

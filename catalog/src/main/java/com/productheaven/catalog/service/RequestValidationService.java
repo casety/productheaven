@@ -6,4 +6,6 @@ public interface RequestValidationService {
 	
 	public void validateProductId(String productId) throws InvalidRequestException;
 
+	public void validateCategoryId(String categoryId) throws InvalidRequestException;
+
 }

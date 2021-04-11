@@ -198,8 +198,10 @@ class UserControllerTests {
 
 		//expect
 		this.mockMvc
-				.perform(post("/user").content(TestUtils.objectToJsonString(userRequestDTO))
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+				.perform(post("/user")
+						.content(TestUtils.objectToJsonString(userRequestDTO))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.user.id",is(mockId)))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.user.username",is("sampleUsername")))

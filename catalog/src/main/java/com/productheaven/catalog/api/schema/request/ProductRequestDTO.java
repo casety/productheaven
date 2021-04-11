@@ -1,13 +1,14 @@
 package com.productheaven.catalog.api.schema.request;
 
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -16,23 +17,28 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCreateRequestDTO {
+@Builder
+public class ProductRequestDTO {
 
 	@NotNull
-	@Max(50)
+	@Size(min=36,max=36)
 	private String categoryId;
 	
-	private Integer imageId;
+	private String imagePath;
 	
 	@NotNull
-	@Max(100)
+	@Size(min=1,max=100)
 	private String name;
 	
 	@NotNull
-	@Max(1000)
+	@Size(min=1,max=1000)
 	private String description;
 	
+	@NotNull
 	@NumberFormat(style = Style.CURRENCY)
 	private Double price;
-	
+
+	@NotNull
+	@Size(min=1,max=100)
+	private String actionUser;
 }

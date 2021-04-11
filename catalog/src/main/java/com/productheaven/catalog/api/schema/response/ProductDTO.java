@@ -11,9 +11,11 @@ public class ProductDTO {
 
 	private Date createTime;
 	
-	private Date createdBy;
+	private String createdBy;
 	
 	private Date lastUpdatedTime;
+	
+	private String lastUpdatedBy;
 		
 	private String categoryId;
 	

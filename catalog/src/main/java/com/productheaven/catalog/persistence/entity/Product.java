@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "PRODUCT",indexes = {@Index (name = "ix_product_cat_id_status",columnList = "categoryId, status")} )
+@Table(name = "PRODUCT",indexes = {@Index (name = "IX_PRODUCT_CAT_ID_STATUS",columnList = "CATEGORY_ID, STATUS")} )
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,12 +32,12 @@ public class Product {
 	private String id;
 
 	@Column(name="STATUS", nullable = false)
-	private int status;
+	private Integer status;
 
 	@Column(name="CREATE_TIME", nullable = false)
 	private Date createTime;
 	
-	@Column(name="CREATED_BY", nullable = false,length = 36)
+	@Column(name="CREATED_BY", nullable = false,length = 100)
 	private String createdBy;
 	
 	@Column(name="LAST_UPDATE_TIME")
@@ -55,10 +55,10 @@ public class Product {
 	@Column(name="DESCRIPTION", nullable = false, length = 1000)
 	private String description;
 	
-	@Column(name="IMAGE_PATH", nullable = false)
+	@Column(name="IMAGE_PATH")
 	private String imagePath;
 	
 	@Column(name="PRICE", nullable = false,precision =19, scale = 2)
-	private double price;
+	private Double price;
 	
 }

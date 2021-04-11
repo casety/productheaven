@@ -94,5 +94,6 @@ class UserControllerIntegrationTests {
 		assertEquals(userRequestDTO.getEmail(), response.getUser().getEmail());
 		assertEquals(userRequestDTO.getSurname(), response.getUser().getSurname());
 		assertNotNull(response.getUser().getId());
+		assertNotNull(repository.findById(response.getUser().getId()).get());
 	}
 }

@@ -1,7 +1,7 @@
 spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
-    show-sql: true
+    show-sql: true    
     hibernate:
       ddl-auto: update
   datasource:

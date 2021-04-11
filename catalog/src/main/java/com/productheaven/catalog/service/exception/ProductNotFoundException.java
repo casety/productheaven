@@ -1,7 +1,7 @@
 package com.productheaven.catalog.service.exception;
 
 /**
- * Thrown when searched product is not found on the system
+ * Thrown when product is not found on the system
  * 
  * @author mkaman
  * 
