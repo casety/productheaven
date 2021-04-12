@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.productheaven.catalog.persistence.entity.Product;
 import com.productheaven.catalog.persistence.repository.ProductRepository;
+import com.productheaven.catalog.service.CategoryService;
 import com.productheaven.catalog.service.ProductService;
+import com.productheaven.catalog.service.exception.CategoryNotFoundException;
 import com.productheaven.catalog.service.exception.ProductNotFoundException;
 
 @Service
@@ -24,9 +26,12 @@ public class ProductServiceImpl implements ProductService {
 	private static final int STATUS_DELETED = 0; 
 	
 	private ProductRepository repository;
+	
+	private CategoryService categoryService;
 
-	public ProductServiceImpl(ProductRepository repository) {
+	public ProductServiceImpl(ProductRepository repository,CategoryService categoryService) {
 		this.repository = repository;
+		this.categoryService = categoryService;
 	}
 	
 	@Override
@@ -60,7 +65,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product saveNewProduct(Product entity) {
+	public Product saveNewProduct(Product entity) throws CategoryNotFoundException{
+		categoryService.getCategoryById(entity.getCategoryId());
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreateTime(new Date());
 		entity.setStatus(STATUS_ACTIVE);
@@ -68,7 +74,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product updateProduct(Product entity) throws ProductNotFoundException {
+	public Product updateProduct(Product entity) throws ProductNotFoundException, CategoryNotFoundException {
+		categoryService.getCategoryById(entity.getCategoryId());
 		//preserve orj values
 		Product orjProduct = getProductById(entity.getId());
 		entity.setCreatedBy(orjProduct.getCreatedBy());

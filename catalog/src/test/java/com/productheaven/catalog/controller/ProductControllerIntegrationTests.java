@@ -22,11 +22,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
+import com.productheaven.catalog.api.schema.request.CategoryRequestDTO;
 import com.productheaven.catalog.api.schema.request.DeleteProductRequestDTO;
 import com.productheaven.catalog.api.schema.request.ProductRequestDTO;
 import com.productheaven.catalog.api.schema.response.BaseResponseDTO;
+import com.productheaven.catalog.api.schema.response.CategoryResponseDTO;
 import com.productheaven.catalog.api.schema.response.ProductResponseDTO;
+import com.productheaven.catalog.persistence.entity.Category;
 import com.productheaven.catalog.persistence.entity.Product;
+import com.productheaven.catalog.persistence.repository.CategoryRepository;
 import com.productheaven.catalog.persistence.repository.ProductRepository;
 import com.productheaven.catalog.util.TestUtils;
 
@@ -42,6 +46,8 @@ class ProductControllerIntegrationTests {
 	@Autowired
 	private ProductRepository repository;
 	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	@BeforeEach
 	void initDb () {
@@ -74,8 +80,15 @@ class ProductControllerIntegrationTests {
 	
 	@Test
 	void givenProductShouldBeCreatedSuccessfully() throws Exception {
+
 		// given
+		CategoryRequestDTO categoryRequestDTO = TestUtils.createCategoryRequestDTO();
+		ResponseEntity<CategoryResponseDTO> createdCategory = restTemplate.postForEntity(new URI("http://localhost:" + port + "/category"), categoryRequestDTO, CategoryResponseDTO.class);
+		
+		// and given
 		ProductRequestDTO productRequestDTO = TestUtils.createProductRequestDTO();
+		productRequestDTO.setCategoryId(createdCategory.getBody().getCategory().getId());
+		
 		//when
 		ResponseEntity<ProductResponseDTO> createdEntity = restTemplate.postForEntity(new URI("http://localhost:" + port + "/product"), productRequestDTO, ProductResponseDTO.class);
 		ProductResponseDTO response = createdEntity.getBody();
@@ -96,11 +109,17 @@ class ProductControllerIntegrationTests {
 	
 	@Test
 	void productShouldBeUpdatedSuccessfully() throws Exception {
+		
+		//categoryRepository
+		Category category = TestUtils.createCategoryEntity();
+		categoryRepository.save(category);
+		
 		// given
 		Product savedProduct = TestUtils.createProductEntity();
+		savedProduct.setCategoryId(category.getId());
 		repository.save(savedProduct);
 
-		ProductRequestDTO productRequestDTO = TestUtils.createProductUpdateRequestDTO();
+		ProductRequestDTO productRequestDTO = TestUtils.createProductUpdateRequestDTO(category.getId());
 		RequestEntity<ProductRequestDTO> requestEntity = new RequestEntity<ProductRequestDTO>(productRequestDTO, HttpMethod.PUT, new URI("http://localhost:" + port + "/product/"+savedProduct.getId())); 
 		//when
 		ResponseEntity<ProductResponseDTO> updatedEntity = restTemplate.exchange(requestEntity, ProductResponseDTO.class);

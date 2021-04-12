@@ -26,6 +26,7 @@ import com.productheaven.catalog.api.schema.response.ProductsResponseDTO;
 import com.productheaven.catalog.persistence.entity.Product;
 import com.productheaven.catalog.service.ProductService;
 import com.productheaven.catalog.service.RequestValidationService;
+import com.productheaven.catalog.service.exception.CategoryNotFoundException;
 import com.productheaven.catalog.service.exception.InvalidRequestException;
 import com.productheaven.catalog.service.exception.ProductNotFoundException;
 
@@ -80,7 +81,7 @@ public class ProductController {
 	}
 	
 	@PostMapping("/product")
-	public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductRequestDTO productRequest) {
+	public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductRequestDTO productRequest) throws CategoryNotFoundException {
 		Product entity = convertToEntityFromCreateRequest(productRequest);
 		entity = productService.saveNewProduct(entity);
 		ProductDTO productDto = convertToDto(entity);
@@ -89,10 +90,10 @@ public class ProductController {
 	}
 	
 	@PutMapping("/product/{id}")
-	public ResponseEntity<ProductResponseDTO> updateProduct(
-			@Valid @RequestBody ProductRequestDTO productRequest,
-			@PathVariable("id") String id) throws InvalidRequestException, ProductNotFoundException {
+	public ResponseEntity<ProductResponseDTO> updateProduct(@Valid @RequestBody ProductRequestDTO productRequest,
+			@PathVariable("id") String id) throws InvalidRequestException, ProductNotFoundException, CategoryNotFoundException {
 		validationService.validateProductId(id);
+		validationService.validateCategoryId(productRequest.getCategoryId());
 		Product entity = convertToEntityFromUpdateRequest(productRequest,id);
 		entity = productService.updateProduct(entity);
 		ProductDTO productDto = convertToDto(entity);

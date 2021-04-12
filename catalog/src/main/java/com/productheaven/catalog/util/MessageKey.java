@@ -22,6 +22,10 @@ public final class MessageKey {
 
 	public static final String VALIDATION_PRODUCT_PRICE_EMPTY= "validation.productprice.empty";
 	
+	public static final String VALIDATION_PRODUCT_PRICE_LOW= "validation.productprice.toolow";
+	public static final String VALIDATION_PRODUCT_PRICE_HIGH= "validation.productprice.toohigh";
+
+	
 	public static final String VALIDATION_ACT_USER_EMPTY= "validation.actionuser.empty";
 	public static final String VALIDATION_ACT_USER_INVALID= "validation.actionuser.invalid";
 	

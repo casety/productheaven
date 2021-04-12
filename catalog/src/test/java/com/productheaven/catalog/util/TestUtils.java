@@ -43,7 +43,7 @@ public class TestUtils {
 		.imagePath("1.jpg")
 		.createdBy("Tester")
 		.createTime(new Date())
-		.name("SampleName")
+		.name(UUID.randomUUID().toString())
 		.status(1)
 		.build();
 	}
@@ -63,7 +63,7 @@ public class TestUtils {
 		.actionUser("Tester-Updated")
 		.description("SampleDescription-Updated")
 		.imagePath("1-Updated.jpg")
-		.name("SampleName-Updated")
+		.name("SampleName-Updated"+UUID.randomUUID().toString())
 		.build();
 	}
 	

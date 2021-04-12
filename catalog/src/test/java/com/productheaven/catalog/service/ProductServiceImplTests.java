@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.productheaven.catalog.persistence.entity.Product;
 import com.productheaven.catalog.persistence.repository.ProductRepository;
+import com.productheaven.catalog.service.exception.CategoryNotFoundException;
 import com.productheaven.catalog.service.exception.ProductNotFoundException;
 import com.productheaven.catalog.service.impl.ProductServiceImpl;
 import com.productheaven.catalog.util.TestUtils;
@@ -28,6 +29,9 @@ class ProductServiceImplTests {
 	
 	@Mock
 	private ProductRepository productRepo;
+	
+	@Mock
+	private CategoryService categoryService;
 	
 	private static final int STATUS_ACTIVE = 1;
 	
@@ -52,7 +56,7 @@ class ProductServiceImplTests {
 	}
 
 	@Test
-	void givenProduct_shouldBeSavedSuccessfully()  {
+	void givenProduct_shouldBeSavedSuccessfully() throws CategoryNotFoundException  {
 		Product testEntity = TestUtils.createProductEntity();
 		when(productRepo.save(any())).thenReturn(testEntity);
 		Product newProduct = productService.saveNewProduct(testEntity);
@@ -60,7 +64,7 @@ class ProductServiceImplTests {
 	}
 	
 	@Test
-	void givenProduct_shouldBeUpdatedSuccessfully() throws ProductNotFoundException  {
+	void givenProduct_shouldBeUpdatedSuccessfully() throws ProductNotFoundException, CategoryNotFoundException  {
 		Product testEntity = TestUtils.createProductEntity();
 		when(productRepo.findByIdAndStatus(testEntity.getId(), STATUS_ACTIVE)).thenReturn(Optional.ofNullable(testEntity));
 		when(productRepo.save(any())).thenReturn(testEntity);
