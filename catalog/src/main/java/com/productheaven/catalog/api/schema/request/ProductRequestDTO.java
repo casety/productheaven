@@ -7,6 +7,8 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
+import com.productheaven.catalog.util.MessageKey;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,19 +28,20 @@ public class ProductRequestDTO {
 	
 	private String imagePath;
 	
-	@NotNull
-	@Size(min=1,max=100)
+	@NotNull(message = "{"+MessageKey.VALIDATION_PRODUCT_NAME_EMPTY+"}")
+	@Size(min=1,max=100,message = "{"+MessageKey.VALIDATION_PRODUCT_NAME_INVALID+"}")
 	private String name;
 	
-	@NotNull
-	@Size(min=1,max=1000)
+	@NotNull(message = "{"+MessageKey.VALIDATION_PRODUCT_DESC_EMPTY+"}")
+	@Size(min=1,max=1000,message = "{"+MessageKey.VALIDATION_PRODUCT_DESC_INVALID+"}")
 	private String description;
 	
-	@NotNull
+	@NotNull(message = "{"+MessageKey.VALIDATION_PRODUCT_PRICE_EMPTY+"}")
 	@NumberFormat(style = Style.CURRENCY)
 	private Double price;
 
-	@NotNull
-	@Size(min=1,max=100)
+	@NotNull(message = "{"+MessageKey.VALIDATION_ACT_USER_EMPTY+"}")
+	@Size(min=1,max=100,message = "{"+MessageKey.VALIDATION_ACT_USER_INVALID+"}")
 	private String actionUser;
+
 }

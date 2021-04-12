@@ -7,17 +7,25 @@ public final class MessageKey {
 		
 	}
 	
+	public static final String VALIDATION_CATEGORY_NAME_EMPTY= "validation.categoryname.empty";
+	public static final String VALIDATION_CATEGORY_NAME_INVALID= "validation.categoryname.invalid";
+	
+	public static final String VALIDATION_CATEGORY_DESC_EMPTY= "validation.categorydescription.empty";
+	public static final String VALIDATION_CATEGORY_DESC_INVALID= "validation.categorydescription.invalid";
+	
+	
+	public static final String VALIDATION_PRODUCT_NAME_EMPTY= "validation.productname.empty";
+	public static final String VALIDATION_PRODUCT_NAME_INVALID= "validation.productname.invalid";
+	
+	public static final String VALIDATION_PRODUCT_DESC_EMPTY= "validation.productdescription.empty";
+	public static final String VALIDATION_PRODUCT_DESC_INVALID= "validation.productdescription.invalid";
+
+	public static final String VALIDATION_PRODUCT_PRICE_EMPTY= "validation.productprice.empty";
+	
+	public static final String VALIDATION_ACT_USER_EMPTY= "validation.actionuser.empty";
+	public static final String VALIDATION_ACT_USER_INVALID= "validation.actionuser.invalid";
+	
 	public static final String VALIDATION_COMMON_MESSAGE     = "validation.common.message";
-	public static final String VALIDATION_USERNAME_EMPTY     = "validation.username.empty";
-	public static final String VALIDATION_USERNAME_INVALID   = "validation.username.invalid";
-	public static final String VALIDATION_EMAIL_EMPTY        = "validation.email.empty";
-	public static final String VALIDATION_EMAIL_INVALID      = "validation.email.invalid";
-	public static final String VALIDATION_NAME_EMPTY         = "validation.name.empty";
-	public static final String VALIDATION_NAME_INVALID       = "validation.name.invalid";	
-	public static final String VALIDATION_SURNAME_EMPTY      = "validation.surname.empty";
-	public static final String VALIDATION_SURNAME_INVALID    = "validation.surname.invalid";
-	public static final String VALIDATION_PASSWORD_EMPTY     = "validation.passwordHashed.empty";
-	public static final String VALIDATION_PASSWORD_INVALID   = "validation.passwordHashed.invalid";
 	public static final String VALIDATION_USER_ID_INVALID    = "validation.userid.invalid";
 	public static final String VALIDATION_CATEGORY_ID_INVALID= "validation.categoryid.invalid";
 	
