@@ -35,7 +35,7 @@ public class UserCreateRequestDTO {
 	private String surname;
 	
 	@NotNull(message = "{"+MessageKey.VALIDATION_PASSWORD_EMPTY+"}")
-	@Size(min=1,max = 512,message = "{"+MessageKey.VALIDATION_PASSWORD_INVALID+"}")
-	private String passwordHashed;
+	@Size(min=8,max = 20,message = "{"+MessageKey.VALIDATION_PASSWORD_INVALID+"}")
+	private String password;
 	
 }

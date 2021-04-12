@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +34,9 @@ public class User {
 	
 	@Column(name="USERNAME", nullable = false, length = 50)
 	private String username;
+	
+	@Transient
+	private String password;
 	
 	@Column(name="PASSWORD_HASHED", nullable = false, length = 512)
 	private String passwordHashed;

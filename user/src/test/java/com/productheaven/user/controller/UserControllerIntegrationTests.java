@@ -57,7 +57,6 @@ class UserControllerIntegrationTests {
 		assertEquals(HttpStatus.OK, createdEntity.getStatusCode());
 		assertNull(response.getErrorMessage());
 		assertEquals(savedUser.getUsername(), response.getUser().getUsername());
-		assertEquals(savedUser.getPasswordHashed(), response.getUser().getPasswordHashed());
 		assertEquals(savedUser.getEmail(), response.getUser().getEmail());
 		assertEquals(savedUser.getSurname(), response.getUser().getSurname());
 		assertEquals(savedUser.getName(), response.getUser().getName());
@@ -73,7 +72,6 @@ class UserControllerIntegrationTests {
 		UserResponseDTO response = createdEntity.getBody();
 		assertNull(response.getErrorMessage());
 		assertEquals(savedUser.getUsername(), response.getUser().getUsername());
-		assertEquals(savedUser.getPasswordHashed(), response.getUser().getPasswordHashed());
 		assertEquals(savedUser.getEmail(), response.getUser().getEmail());
 		assertEquals(savedUser.getSurname(), response.getUser().getSurname());
 		assertEquals(savedUser.getName(), response.getUser().getName());

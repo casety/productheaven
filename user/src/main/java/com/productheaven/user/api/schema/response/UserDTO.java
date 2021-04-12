@@ -15,9 +15,5 @@ public class UserDTO {
 	
 	private String surname;
 
-	//to be handled by gateway
-	private String passwordHashed;
-
-	
 
 }

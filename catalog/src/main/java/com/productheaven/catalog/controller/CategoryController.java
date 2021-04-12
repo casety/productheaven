@@ -26,6 +26,7 @@ import com.productheaven.catalog.api.schema.response.CategoryResponseDTO;
 import com.productheaven.catalog.persistence.entity.Category;
 import com.productheaven.catalog.service.CategoryService;
 import com.productheaven.catalog.service.RequestValidationService;
+import com.productheaven.catalog.service.exception.CategoryAlreadyExistsException;
 import com.productheaven.catalog.service.exception.CategoryNotFoundException;
 import com.productheaven.catalog.service.exception.InvalidRequestException;
 
@@ -68,7 +69,7 @@ public class CategoryController {
 	
 	
 	@PostMapping("/category")
-	public ResponseEntity<CategoryResponseDTO> createCategory(@Valid @RequestBody CategoryRequestDTO categoryRequest) {
+	public ResponseEntity<CategoryResponseDTO> createCategory(@Valid @RequestBody CategoryRequestDTO categoryRequest) throws CategoryAlreadyExistsException {
 		Category entity = convertToEntityFromCreateRequest(categoryRequest);
 		entity = categoryService.saveNewCategory(entity);
 		CategoryDTO categoryDto = convertToDto(entity);

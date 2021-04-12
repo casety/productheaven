@@ -14,6 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.productheaven.catalog.api.schema.response.BaseResponseDTO;
+import com.productheaven.catalog.service.exception.CategoryAlreadyExistsException;
 import com.productheaven.catalog.service.exception.CategoryNotFoundException;
 import com.productheaven.catalog.service.exception.InvalidRequestException;
 import com.productheaven.catalog.service.exception.ProductNotFoundException;
@@ -51,6 +52,12 @@ public class GlobalResponseExceptionHandler extends ResponseEntityExceptionHandl
 	
 	@ExceptionHandler(value = ProductNotFoundException.class)
 	protected ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException ex, WebRequest request) {
+		BaseResponseDTO baseResponseDTO = new BaseResponseDTO(produceMessageFromException(ex));
+		return new ResponseEntity<>(baseResponseDTO, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(value = CategoryAlreadyExistsException.class)
+	protected ResponseEntity<Object> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException ex, WebRequest request) {
 		BaseResponseDTO baseResponseDTO = new BaseResponseDTO(produceMessageFromException(ex));
 		return new ResponseEntity<>(baseResponseDTO, HttpStatus.NOT_FOUND);
 	}

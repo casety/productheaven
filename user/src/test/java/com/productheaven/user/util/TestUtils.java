@@ -31,7 +31,7 @@ public class TestUtils {
 	
 	public static User createUserEntity() {
 		String tempId = UUID.randomUUID().toString();
-		User user = new User(tempId,new Date(),"sampleusername","samplehashedpass","sample@email","samplename","samplesurname");
+		User user = new User(tempId,new Date(),"sampleusername","samplePass","samplePass","sample@email","samplename","samplesurname");
 		return user;
 	}
 	

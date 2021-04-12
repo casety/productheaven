@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.productheaven.user.api.schema.response.BaseResponseDTO;
 import com.productheaven.user.service.exception.InvalidRequestException;
+import com.productheaven.user.service.exception.LoginAttemptFailedException;
 import com.productheaven.user.service.exception.NoUsersFoundException;
 import com.productheaven.user.service.exception.UserAlreadyExistsException;
 import com.productheaven.user.service.exception.UserNotFoundException;
@@ -44,6 +45,12 @@ public class GlobalResponseExceptionHandler extends ResponseEntityExceptionHandl
         return new ResponseEntity<>(baseResponseDTO, HttpStatus.BAD_REQUEST);
     }
 	
+    @ExceptionHandler(value = LoginAttemptFailedException.class)
+	protected ResponseEntity<Object> handleLoginAttemptFailedException(LoginAttemptFailedException ex, WebRequest request) {
+		BaseResponseDTO baseResponseDTO = new BaseResponseDTO(produceMessageFromException(ex));
+		return new ResponseEntity<>(baseResponseDTO, HttpStatus.UNAUTHORIZED);
+	}
+    
 	@ExceptionHandler(value = NoUsersFoundException.class)
 	protected ResponseEntity<Object> handleNoUsersFoundException(NoUsersFoundException ex, WebRequest request) {
 		BaseResponseDTO baseResponseDTO = new BaseResponseDTO(produceMessageFromException(ex));

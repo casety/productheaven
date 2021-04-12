@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.productheaven.user.persistence.entity.User;
@@ -30,6 +31,9 @@ class UserServiceImplTests {
 	
 	@Mock
 	private UserRepository userRepo;
+	
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
 	@Test
 	void usersShouldBeFetchedByIdSuccessfully() throws UserNotFoundException {
@@ -72,6 +76,7 @@ class UserServiceImplTests {
 	void givenUser_userRegistrationCompletesSuccessfully() throws UserAlreadyExistsException {
 		User testUserEntity = TestUtils.createUserEntity();
 		when(userRepo.save(any())).thenReturn(testUserEntity);
+		when(passwordEncoder.encode(any())).thenReturn(testUserEntity.getPassword());
 		User registeredNewUser = userService.registerNewUser(testUserEntity);
 		assertEquals(testUserEntity, registeredNewUser);
 	}

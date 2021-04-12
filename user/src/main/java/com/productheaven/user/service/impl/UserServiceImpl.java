@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.productheaven.user.persistence.entity.User;
@@ -23,9 +24,12 @@ import com.productheaven.user.service.exception.UserNotFoundException;
 public class UserServiceImpl implements UserService {
 
 	private UserRepository repository;
+	
+	private PasswordEncoder passwordEncoder;
 
-	public UserServiceImpl(UserRepository repository) {
+	public UserServiceImpl(UserRepository repository,PasswordEncoder passwordEncoder) {
 		this.repository = repository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
@@ -58,12 +62,8 @@ public class UserServiceImpl implements UserService {
 		}
 		entity.setCreateTime(new Date());
 		entity.setId(id);
-		// work factor
-//		final int strength = 10; 
-//		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(strength, new SecureRandom());
-//		entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
+		entity.setPasswordHashed(passwordEncoder.encode(entity.getPassword()));
 		return repository.save(entity);
-		
 	}
 
 	@Override

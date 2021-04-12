@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.productheaven.catalog.persistence.entity.Category;
 import com.productheaven.catalog.persistence.repository.CategoryRepository;
 import com.productheaven.catalog.service.CategoryService;
+import com.productheaven.catalog.service.exception.CategoryAlreadyExistsException;
 import com.productheaven.catalog.service.exception.CategoryNotFoundException;
 
 @Service
@@ -52,7 +53,11 @@ public class CategoryServiceImpl implements CategoryService {
 
 
 	@Override
-	public Category saveNewCategory(Category entity) {
+	public Category saveNewCategory(Category entity) throws CategoryAlreadyExistsException {
+		List<Category> result = repository.findByNameAndStatus(entity.getName(), STATUS_ACTIVE);
+		if (result!=null && !result.isEmpty()) {
+			throw new CategoryAlreadyExistsException();
+		}
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreateTime(new Date());
 		entity.setStatus(STATUS_ACTIVE);
