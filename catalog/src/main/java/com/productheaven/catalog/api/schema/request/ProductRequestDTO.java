@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductRequestDTO {
 
-	@NotNull
+	@NotNull(message = "{"+MessageKey.VALIDATION_CATEGORY_ID_INVALID+"}")
 	@Size(min=36,max=36)
 	private String categoryId;
 	

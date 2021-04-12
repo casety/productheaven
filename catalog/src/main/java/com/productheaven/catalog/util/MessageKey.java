@@ -26,8 +26,9 @@ public final class MessageKey {
 	public static final String VALIDATION_ACT_USER_INVALID= "validation.actionuser.invalid";
 	
 	public static final String VALIDATION_COMMON_MESSAGE     = "validation.common.message";
-	public static final String VALIDATION_USER_ID_INVALID    = "validation.userid.invalid";
+	public static final String VALIDATION_PRODUCT_ID_INVALID = "validation.productid.invalid";
 	public static final String VALIDATION_CATEGORY_ID_INVALID= "validation.categoryid.invalid";
+	public static final String VALIDATION_CATEGORY_ID_EMPTY= "validation.categoryid.empty";
 	
 	public static final String EXCEPTION_NO_USER_FOUND               = "exception.NoUsersFoundException.message";
 	public static final String EXCEPTION_USER_ALREADY_EXISTS         = "exception.UserAlreadyExistsException.message";
