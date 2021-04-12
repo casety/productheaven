@@ -12,7 +12,7 @@ public class MessageSourceConfig {
 	@Bean
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("messages/message");
+		messageSource.setBasename("classpath:i18n/messages");
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
 	}
@@ -25,3 +25,4 @@ public class MessageSourceConfig {
 	}
 
 }
+

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.productheaven.catalog.service.RequestValidationService;
 import com.productheaven.catalog.service.exception.InvalidRequestException;
+import com.productheaven.catalog.util.MessageKey;
 
 @Service
 public class RequestValidationServiceImpl implements RequestValidationService {
@@ -14,7 +15,7 @@ public class RequestValidationServiceImpl implements RequestValidationService {
 	public void validateProductId(String productId) throws InvalidRequestException {
 
 		if (!productId.matches(REGEX_FOR_UUID)) {
-			throw new InvalidRequestException("Gecersiz id");
+			throw new InvalidRequestException(MessageKey.VALIDATION_USER_ID_INVALID);
 		}
 	}
 	
@@ -22,7 +23,7 @@ public class RequestValidationServiceImpl implements RequestValidationService {
 	public void validateCategoryId(String categoryId) throws InvalidRequestException {
 
 		if (!categoryId.matches(REGEX_FOR_UUID)) {
-			throw new InvalidRequestException("Gecersiz id");
+			throw new InvalidRequestException(MessageKey.VALIDATION_CATEGORY_ID_INVALID);
 		}
 	}
 }

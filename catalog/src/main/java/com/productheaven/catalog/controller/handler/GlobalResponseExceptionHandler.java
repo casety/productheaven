@@ -2,6 +2,7 @@ package com.productheaven.catalog.controller.handler;
 
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,14 @@ import com.productheaven.catalog.service.exception.InvalidRequestException;
 import com.productheaven.catalog.service.exception.ProductNotFoundException;
 
 @ControllerAdvice
+//@Slf4j
 public class GlobalResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
+	@Autowired
 	private MessageSource messageSource;
 	
-	public GlobalResponseExceptionHandler(MessageSource messageSource) {
-		this.messageSource = messageSource;
-	}
+	
+	
 	
 	@ExceptionHandler(value = ProductNotFoundException.class)
 	protected ResponseEntity<Object> handleUserNotFoundException(ProductNotFoundException ex, WebRequest request) {
@@ -34,6 +36,14 @@ public class GlobalResponseExceptionHandler extends ResponseEntityExceptionHandl
 	protected ResponseEntity<Object> handleInvalidRequestException(InvalidRequestException e) {
 		BaseResponseDTO baseResponseDTO = new BaseResponseDTO(produceMessageFromMessageSource(e.getMessage()));
 		return new ResponseEntity<>(baseResponseDTO, HttpStatus.BAD_REQUEST);
+	}
+	
+	// handle all other cases properly
+	@ExceptionHandler(value = Exception.class)
+	protected ResponseEntity<Object> handleAllException(Exception e) {
+		//log.error(e.getMessage(), e);
+		BaseResponseDTO baseResponseDTO = new BaseResponseDTO(produceMessageFromException(e));
+		return new ResponseEntity<>(baseResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	private String produceMessageFromMessageSource(String messageKey) {

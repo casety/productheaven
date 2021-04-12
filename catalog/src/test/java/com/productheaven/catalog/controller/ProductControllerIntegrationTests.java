@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.net.URI;
 import java.net.URL;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -147,5 +148,22 @@ class ProductControllerIntegrationTests {
 		assertEquals(STATUS_DELETED, updatedRecord.getStatus());
 		assertEquals(actionUser, updatedRecord.getLastUpdatedBy());
 
+	}
+	
+	@Test
+	void whenThereIsNoProductToBeDeleted_HTTP404ShouldBeReturned() throws Exception {
+		// given
+		String productId = UUID.randomUUID().toString();
+		final String actionUser = "Deleter!";
+		DeleteProductRequestDTO productRequestDTO = new DeleteProductRequestDTO(actionUser);
+		RequestEntity<DeleteProductRequestDTO> requestEntity = new RequestEntity<DeleteProductRequestDTO>(productRequestDTO, HttpMethod.DELETE, new URI("http://localhost:" + port + "/product/"+productId));
+		
+		//when
+		ResponseEntity<BaseResponseDTO> responseEntity = restTemplate.exchange(requestEntity, BaseResponseDTO.class);
+		BaseResponseDTO response = responseEntity.getBody();
+		
+		//then
+		assertNotNull(response);
+		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 	}
 }
