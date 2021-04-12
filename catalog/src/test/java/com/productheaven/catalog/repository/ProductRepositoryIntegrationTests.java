@@ -1,4 +1,4 @@
-package com.productheaven.user.persistence;
+package com.productheaven.catalog.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -6,44 +6,45 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.productheaven.user.persistence.entity.User;
-import com.productheaven.user.persistence.repository.UserRepository;
-import com.productheaven.user.util.TestUtils;
+import com.productheaven.catalog.persistence.entity.Product;
+import com.productheaven.catalog.persistence.repository.ProductRepository;
+import com.productheaven.catalog.util.TestUtils;
 
 @SpringBootTest
-class UserRepositoryIntegrationTests {
+class ProductRepositoryIntegrationTests {
 	
 	@Autowired
-	UserRepository repo;
+	ProductRepository repo;
 	
 	@Test
 	void givenUserShouldBeSaved() {
-		User entity = TestUtils.createUserEntity();
-		User savedUser = repo.save(entity);
-		assertEquals(entity.getId(), savedUser.getId());
+		Product entity = TestUtils.createProductEntity();
+		Product savedProduct = repo.save(entity);
+		assertEquals(entity.getId(), savedProduct.getId());
 	}
 	
 	@Test
-	void givenNullPasswordField_repositoryThrowsDataIntegrityViolationException() {
-		User entity = TestUtils.createUserEntity();
-		entity.setPasswordHashed(null);
+	void givenNullPriceField_repositoryThrowsDataIntegrityViolationException() {
+		Product entity = TestUtils.createProductEntity();
+		entity.setPrice(null);
 		Exception thrown = assertThrows(DataIntegrityViolationException.class, () -> {
 			repo.save(entity);
 		});
 		Throwable rootCause = thrown.getCause().getCause();
 		assertTrue(rootCause instanceof SQLIntegrityConstraintViolationException);		
 		String message =((SQLIntegrityConstraintViolationException)rootCause).getMessage();
-		assertEquals("Column 'password_hashed' cannot be null", message);
+		assertEquals("Column 'price' cannot be null", message);
 	}
 	
 	@Test
 	void givenNullNameField_repositoryThrowsDataIntegrityViolationException() {
-		User entity = TestUtils.createUserEntity();
+		Product entity = TestUtils.createProductEntity();
 		entity.setName(null);
 		Exception thrown = assertThrows(DataIntegrityViolationException.class, () -> {
 			repo.save(entity);

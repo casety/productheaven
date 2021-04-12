@@ -11,7 +11,9 @@ public class CategoryDTO {
 
 	private Date createTime;
 	
-	private Date createdBy;
+	private String createdBy;
+	
+	private String lastUpdatedBy;
 		
 	private String name;
 	

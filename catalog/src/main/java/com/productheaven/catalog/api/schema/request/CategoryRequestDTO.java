@@ -1,10 +1,11 @@
 package com.productheaven.catalog.api.schema.request;
 
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,20 +14,21 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryCreateRequestDTO {
+@Builder
+public class CategoryRequestDTO {
+	
+	private String imagePath;
 	
 	@NotNull
-	@Max(50)
-	private String categoryId;
-	
-	private Integer imageId;
-	
-	@NotNull
-	@Max(100)
+	@Size(min=1,max=100)
 	private String name;
 	
 	@NotNull
-	@Max(1000)
+	@Size(min=1,max=500)
 	private String description;
+	
+	@NotNull
+	@Size(min=1,max=100)
+	private String actionUser;
 	
 }

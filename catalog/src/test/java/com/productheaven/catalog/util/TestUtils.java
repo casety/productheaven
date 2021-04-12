@@ -4,7 +4,9 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.productheaven.catalog.api.schema.request.CategoryRequestDTO;
 import com.productheaven.catalog.api.schema.request.ProductRequestDTO;
+import com.productheaven.catalog.persistence.entity.Category;
 import com.productheaven.catalog.persistence.entity.Product;
 
 public class TestUtils {
@@ -28,6 +30,41 @@ public class TestUtils {
 	    } catch (Exception e) {
 	        throw new RuntimeException(e);
 	    }
+	}
+
+	public static Category createCategoryEntity() {
+		return createCategoryEntity(UUID.randomUUID().toString());
+	}
+	
+	public static Category createCategoryEntity(String categoryId) {
+		return Category.builder()
+		.id(categoryId)
+		.description("SampleDescription")
+		.imagePath("1.jpg")
+		.createdBy("Tester")
+		.createTime(new Date())
+		.name("SampleName")
+		.status(1)
+		.build();
+	}
+
+	public static CategoryRequestDTO createCategoryRequestDTO() {
+		return CategoryRequestDTO.builder()
+		.actionUser("Tester")
+		.description("SampleDescription")
+		.imagePath("1.jpg")
+		.name("SampleName")
+		.build();
+	}
+	
+	
+	public static CategoryRequestDTO createCategoryUpdateRequestDTO() {
+		return CategoryRequestDTO.builder()
+		.actionUser("Tester-Updated")
+		.description("SampleDescription-Updated")
+		.imagePath("1-Updated.jpg")
+		.name("SampleName-Updated")
+		.build();
 	}
 	
 	public static Product createProductEntity() {
